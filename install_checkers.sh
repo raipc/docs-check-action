@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+export NPM_CONFIG_PREFIX=~/.npm-global
 npm install --global --production yaspeller@4.2.1 spellchecker-cli@4.0.0 markdown-link-check remark-cli markdownlint-cli@0.12.0 https://github.com/unrealwork/remark-validate-links
 wget https://raw.githubusercontent.com/axibase/docs-util/master/python-scripts/dictionaries_generator.py -O dictionaries_generator.py
 if [ "$GITHUB_REPOSITORY" == "axibase/atsd" ]; then
