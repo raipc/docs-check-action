@@ -1,0 +1,40 @@
+name: 'Docs Check'
+description: 'Run static analysis on markdown documentation'
+inputs:
+  linkcheck:
+    description: 'Enable linkcheck analysis'
+    required: false
+    default: 'true'
+  spellcheck:
+    description: 'Enable spellcheck analysis'
+    required: false
+    default: 'true'
+  stylecheck:
+    description: 'Enable stylecheck analysis'
+    required: false
+    default: 'true'
+  validate_anchors:
+    description: 'Validate anchors using remark.js'
+    required: false
+    default: 'true'
+runs:
+  using: "composite"
+  steps:
+    - name: Install checkers
+      run: ${{ github.action_path }}/install_checkers.sh
+      shell: bash
+    - name: Print files to analyze
+      run: ${{ github.action_path }}/print_modified_markdown_files.sh
+      shell: bash
+    - name: Run spellcheck
+      run: if [[ "${{ inputs.spellcheck }}" == "true" ]]; then ${{ github.action_path }}/spellcheck.sh; else echo "skipped"; fi
+      shell: bash
+    - name: Run linkcheck
+      run: if [[ "${{ inputs.linkcheck }}" == "true" ]]; then ${{ github.action_path }}/linkcheck.sh; else echo "skipped"; fi
+      shell: bash
+    - name: Run stylecheck
+      run: if [[ "${{ inputs.stylecheck }}" == "true" ]]; then ${{ github.action_path }}/stylecheck.sh; else echo "skipped"; fi
+      shell: bash
+    - name: Validate anchors using remark.js
+      run: if [[ "${{ inputs.validate_anchors }}" == "true" ]]; then ${{ github.action_path }}/validate_anchors.sh; else echo "skipped"; fi
+      shell: bash
