@@ -13,11 +13,11 @@ if [[ -n "$(list_modified_md_files)" ]]; then
     exit_code=0
     if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
         if [[ -n "$(list_modified_md_files)" ]]; then
-            list_modified_md_files | xargs -d '\n' -n1 markdownlint -i docs-util -r 'docs-util/linting-rules/*' {}
+            list_modified_md_files | xargs -d '\n' -n1 ~/.npm-global/bin/markdownlint -i docs-util -r 'docs-util/linting-rules/*' {}
             exit_code=$?
         fi;
     else
-        markdownlint -i docs-util -r 'docs-util/linting-rules/*' .
+        ~/.npm-global/bin/markdownlint -i docs-util -r 'docs-util/linting-rules/*' .
         exit_code=$?
     fi
     rm -rf docs-util

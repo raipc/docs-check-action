@@ -13,17 +13,17 @@ if [[ -n "$(list_modified_md_files)" ]]; then
     yaspeller_exit_code=0
     spellchecker_exit_code=0
     if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
-        list_modified_md_files | xargs -d '\n' -n1 yaspeller --dictionary .yaspeller-dictionary.json {}
+        list_modified_md_files | xargs -d '\n' -n1 ~/.npm-global/bin/yaspeller --dictionary .yaspeller-dictionary.json {}
         yaspeller_exit_code=$?
         if [ "$1" != "--single" ]; then
-            list_modified_md_files | xargs -d '\n' -n1 spellchecker --language=en-US --plugins spell repeated-words syntax-mentions syntax-urls --ignore "[A-Zx0-9./_-]+" "[u0-9a-fA-F]+" "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" "[0-9dhms:-]+" "(metric|entity|tag|[emtv])[:0-9]*" --dictionaries .spelling --files {}
+            list_modified_md_files | xargs -d '\n' -n1 ~/.npm-global/bin/spellchecker --language=en-US --plugins spell repeated-words syntax-mentions syntax-urls --ignore "[A-Zx0-9./_-]+" "[u0-9a-fA-F]+" "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" "[0-9dhms:-]+" "(metric|entity|tag|[emtv])[:0-9]*" --dictionaries .spelling --files {}
             spellchecker_exit_code=$?
         fi
     else
-        yaspeller --max-requests 10 --dictionary .yaspeller-dictionary.json -e ".md" ./
+        ~/.npm-global/bin/yaspeller --max-requests 10 --dictionary .yaspeller-dictionary.json -e ".md" ./
         yaspeller_exit_code=$?
         if [ "$1" != "--single" ]; then
-            spellchecker --language=en-US --plugins spell repeated-words syntax-mentions syntax-urls --ignore "[A-Zx0-9./_-]+" "[u0-9a-fA-F]+" "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" "[0-9dhms:-]+" "(metric|entity|tag|[emtv])[:0-9]*" --dictionaries .spelling --files '**/*.md'
+            ~/.npm-global/bin/spellchecker --language=en-US --plugins spell repeated-words syntax-mentions syntax-urls --ignore "[A-Zx0-9./_-]+" "[u0-9a-fA-F]+" "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" "[0-9dhms:-]+" "(metric|entity|tag|[emtv])[:0-9]*" --dictionaries .spelling --files '**/*.md'
             spellchecker_exit_code=$?
         fi
     fi
