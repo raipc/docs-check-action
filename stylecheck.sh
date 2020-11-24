@@ -2,7 +2,7 @@
 
 function list_modified_md_files {
     if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-        git diff --name-only --diff-filter=d $(git merge-base HEAD master) | grep "\.md$" || true
+        git diff --name-only --diff-filter=d "$GITHUB_EVENT_BEFORE".."$GITHUB_EVENT_AFTER" | grep "\.md$" || true
     else
         find . -name \*.md -print || true
     fi
