@@ -125,7 +125,7 @@ function stylecheck() {
 linter=$1
 case "$linter" in
 links) linkcheck ;;
-anchors) validate_abchors ;;
+anchors) validate_anchors ;;
 spelling) spellcheck ;;
 spelling_retext) spellcheck_retext ;;
 spelling_yandex) spellcheck_yandex ;;
