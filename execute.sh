@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 function install_checker() {
   export NPM_CONFIG_PREFIX=~/.npm-global
