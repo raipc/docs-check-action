@@ -121,6 +121,8 @@ function stylecheck() {
   fi
 }
 
+echo "Files to be checked:"
+list_modified_md_files
 
 linter=$1
 case "$linter" in
@@ -132,6 +134,3 @@ spelling_yandex) spellcheck_yandex ;;
 style) stylecheck ;;
 *) echo "Unknown linter: $linter" && exit 1 ;;
 esac
-
-echo "Files to be checked:"
-list_modified_md_files
