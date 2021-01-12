@@ -12,6 +12,7 @@ function install_checker() {
     ;;
   anchors) package="remark-cli https://github.com/unrealwork/remark-validate-links" ;;
   spelling) package="yaspeller@4.2.1 spellchecker-cli@4.0.0";
+    wget https://raw.githubusercontent.com/axibase/docs-util/master/python-scripts/dictionaries_generator.py -O dictionaries_generator.py
     if [ "$GITHUB_REPOSITORY" == "axibase/atsd" ]; then
       python dictionaries_generator.py --mode=atsd
     else
@@ -33,7 +34,6 @@ function install_checker() {
   * ) echo "Unknown linter: ${type}" && exit 1 ;;
   esac
   npm install --global --production ${package}
-  wget https://raw.githubusercontent.com/axibase/docs-util/master/python-scripts/dictionaries_generator.py -O dictionaries_generator.py
 }
 
 function list_modified_md_files {
