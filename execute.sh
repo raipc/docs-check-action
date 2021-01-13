@@ -37,11 +37,11 @@ function install_checker() {
 }
 
 function list_modified_md_files {
-    if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-        git diff --name-only --diff-filter=d "$(git merge-base HEAD master)" | grep "\.md$" || true
-    else
-        find . -name \*.md -print || true
-    fi
+    case "$GITHUB_EVENT_NAME" in
+      pull_request ) git diff --name-only --diff-filter=d "HEAD..${GITHUB_SHA}" | grep "\.md$" || true ;;
+      push ) git diff --name-only --diff-filter=d "HEAD..${GITHUB_SHA}" | grep "\.md$" || true ;;
+      * ) find . -name \*.md -print || true ;;
+    esac
 }
 
 function linkcheck() {
