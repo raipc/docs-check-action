@@ -38,8 +38,9 @@ function install_checker() {
 
 function list_modified_md_files {
     case "$GITHUB_EVENT_NAME" in
-      pull_request ) git diff --name-only --diff-filter=d "HEAD..${GITHUB_SHA}" | grep "\.md$" || true ;;
-      push ) git diff --name-only --diff-filter=d "HEAD..${GITHUB_SHA}" | grep "\.md$" || true ;;
+      pull_request ) PR_ID=$(echo $GITHUB_REF | sed -n 's/.*pull\/\(.*\)\/merge/\1/p') ;
+        curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_ID}/files | jq --raw-output 'map(.filename)' | sed -n 's/ *"\(.*\)".*/\1/p' ;;
+      push ) git diff --name-only --diff-filter=d "HEAD^..${GITHUB_SHA}" | grep "\.md$" || true ;;
       * ) find . -name \*.md -print || true ;;
     esac
 }
