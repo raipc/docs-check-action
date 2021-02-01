@@ -46,10 +46,9 @@ function list_modified_md_files {
 }
 
 function linkcheck() {
-  modified="$(list_modified_md_files)"
-  if [[ -n "${modified}" ]]; then
+  if [[ -n "$(list_modified_md_files)" ]]; then
     install_checker links
-    echo ${modified} | xargs -d '\n' -n1 ~/.npm-global/bin/markdown-link-check -v -c .linkcheck-config.json
+    list_modified_md_files | xargs -d '\n' -n1 ~/.npm-global/bin/markdown-link-check -v -c .linkcheck-config.json
   else
       echo "Link checking will be skipped"
   fi
